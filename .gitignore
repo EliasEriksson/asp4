@@ -3,5 +3,5 @@
 **/obj/
 **/packages/
 **/Migrations/
-**/~lock.rapport.odt#
+**/.~lock.rapport.odt#
 **/db.db
