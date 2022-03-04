@@ -1,0 +1,40 @@
+@model Quiz
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Quiz</h4>
+    <hr/>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Lyric)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Lyric)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TimeLimitSec)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TimeLimitSec)
+        </dd>
+    </dl>
+</div>
+<div>
+    <ul>
+        <li><a asp-action="Edit" asp-route-id="@(Model.Id)">Edit</a></li>
+        <li><a asp-action="Delete" asp-route-id="@(Model.Id)">Delete</a></li>
+        <li><a asp-action="Index">Back to List</a></li>
+    </ul>
+
+</div>
