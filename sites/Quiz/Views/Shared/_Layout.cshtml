@@ -5,7 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"] - Quiz</title>
     <base href="/aspdotnet/moment4/static/"/>
+    <link rel="icon" type="image/png" href="/aspdotnet/moment4/static/favicon.png">
     <link rel="stylesheet" href="css/site.css" asp-append-version="true"/>
+    @if (ViewData["javascript"] != null)
+    {
+        @foreach (var src in (List<string>)ViewData["javascript"]!)
+        {
+            <script type="module" src="@src"></script>
+        }
+    }
 </head>
 <body>
 <header>

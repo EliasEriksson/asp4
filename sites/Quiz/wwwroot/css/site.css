@@ -16,3 +16,23 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+p {
+  max-width: 65ch;
+}
+
+.words span:before {
+  display: flex;
+  width: 1ch;
+  background-color: red;
+}
+
+.missing {
+  display: inline-flex;
+  height: 0.9em;
+  background-color: red;
+}
+
+.words span {
+  
+}

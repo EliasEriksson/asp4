@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Quiz.Data;
 
@@ -14,8 +15,8 @@ namespace Quiz.Controllers
 
         public IActionResult Index()
         {
+            Console.WriteLine(User.FindFirstValue(ClaimTypes.NameIdentifier));
             return this.View();
         }
     }
 }
-

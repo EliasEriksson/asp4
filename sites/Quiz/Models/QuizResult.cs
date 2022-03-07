@@ -12,6 +12,9 @@ namespace Quiz.Models
         public double PercentCompleted { get; set; }
 
         [Required]
+        public int Time { get; set; }
+        
+        [Required]
         public Guid QuizId { get; set; }
         public Quiz? Quiz { get; set; }
 
