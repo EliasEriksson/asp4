@@ -2,6 +2,10 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
+@{
+    Console.WriteLine($"signed in: {SignInManager.IsSignedIn(User)}");
+}
+
 <ul class="">
     @if (SignInManager.IsSignedIn(User))
     {

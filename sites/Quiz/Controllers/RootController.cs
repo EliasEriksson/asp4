@@ -15,7 +15,7 @@ namespace Quiz.Controllers
 
         public IActionResult Index()
         {
-            Console.WriteLine(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            Console.WriteLine($"user: {User.FindFirstValue(ClaimTypes.NameIdentifier)}");
             return this.View();
         }
     }

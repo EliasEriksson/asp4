@@ -17,7 +17,7 @@ namespace Quiz.Models
         public int TimeLimitSec { get; set; }
 
         [Required] public string? UserId { get; set; }
-        public User? User { get; set; }
+        public ApplicationUser? User { get; set; }
 
         public List<QuizResult>? Results { get; set; }
     }

@@ -50,7 +50,7 @@ namespace Quiz.Data
             );
         }
         
-        public DbSet<User> Users { get; set; }
+        // public DbSet<Models.ApplicationUser> Users { get; set; }
         public DbSet<Models.Quiz> Quizzes { get; set; }
         public DbSet<Models.QuizResult> QuizResults { get; set; }
     }
