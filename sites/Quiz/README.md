@@ -6,6 +6,7 @@
    * Newtonsoft.Json
    * Microsoft.EntityFrameworkCore.SqlServer
    * Microsoft.VisualStudio.Web.CodeGeneration.Design
+   * Microsoft.AspNetCore.Mvc.NewtonsoftJson
 2. Add `.credentials.json` in project root (`asp4/Quiz/`)
    ```json
    {

@@ -1,0 +1,39 @@
+@model Quiz
+
+@{
+    ViewData["Title"] = "Details";
+    ViewData["javascript"] = new List<string>()
+    {
+        "js/quiz.js"
+    };
+}
+
+<h1>@Model.Name</h1>
+<div>
+    <div>
+        <button id="startQuiz">Start Quiz</button>
+        <time id="quizTimer">@(Model.TimeLimitSec / 60):@(Model.TimeLimitSec % 60)</time>
+    </div>
+
+    <form id="inputForm">
+        <div class="form-group">
+            <label></label>
+            <input autocomplete="off" disabled="disabled" id="wordInput" class="form-control"/>
+        </div>
+        <input id="inputFormSubmitButton" disabled="disabled" type="submit">
+    </form>
+    <p id="found-words" class="found-words"></p>
+</div>
+<div>
+    <ul>
+        <li>
+            <a asp-action="Edit" asp-route-id="@(Model.Id)">Edit</a>
+        </li>
+        <li>
+            <a asp-action="Delete" asp-route-id="@(Model.Id)">Delete</a>
+        </li>
+        <li>
+            <a asp-action="Index">Back to List</a>
+        </li>
+    </ul>
+</div>

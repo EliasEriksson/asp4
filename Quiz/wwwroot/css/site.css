@@ -1,0 +1,38 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+p {
+  max-width: 65ch;
+}
+
+.words span:before {
+  display: flex;
+  width: 1ch;
+  background-color: red;
+}
+
+.missing {
+  display: inline-flex;
+  height: 0.9em;
+  background-color: red;
+}
+
+.words span {
+
+}

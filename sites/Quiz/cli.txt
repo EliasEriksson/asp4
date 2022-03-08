@@ -5,7 +5,6 @@ installs
     Newtonsoft.Json
     Microsoft.EntityFrameworkCore.SqlServer
     Microsoft.VisualStudio.Web.CodeGeneration.Design
-    Swashbuckle.AspNetCore
     
 scaffolds
     dotnet aspnet-codegenerator identity -dc Quiz.Data.QuizContext --files "Account.Register;Account.Login;Account.Logout;"

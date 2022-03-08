@@ -1,0 +1,19 @@
+@model QuizResult
+
+@{
+    ViewData["Title"] = "Index";
+    ViewData["javascript"] = new List<string>()
+    {
+        "js/result.js"
+    };
+}
+
+<h1>@Model.Quiz?.Name</h1>
+<div>
+    <div>
+        <p>Completed with <time></time> left.</p>
+    </div>
+    <div>
+        <p>Missing from </p>
+    </div>
+</div>

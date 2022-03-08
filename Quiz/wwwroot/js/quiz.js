@@ -7,7 +7,6 @@ const timer = document.getElementById("quizTimer");
 const startQuiz = document.getElementById("startQuiz");
 
 const apiURL = "/aspdotnet/moment4/api/quiz";
-
 /**
  *
  * @param {Array<string>} words
@@ -26,16 +25,29 @@ const update = (words, remainingWords) => {
 }
 
 /**
- * 
+ *
  * @param {string} quizId
  */
 const redirectToResult = (quizId) => {
-    `${document.location.protocol}//${document.location.href.split("/").filter(part => part).slice(1, -1).join("/")}/results/${quizId}/`
+    document.location.href = `${document.location.protocol}//${document.location.href.split("/").filter(part => part).slice(1, -2).join("/")}/results/${quizId}/`
+}
+
+/**
+ *
+ * @param {Object<string, any>} obj
+ */
+const toFormData = (obj) => {
+    const formData = new FormData();
+    for (const [key, value] of Object.entries(obj)) {
+        formData.append(key, value);
+    }
+    return formData;
 }
 
 
 window.addEventListener("load", async () => {
     const quizData = await fetch(`${apiURL}/${quizId}/`).then(data => data.json());
+    console.log(quizData)
     const words = quizData.lyric.split(" ");
     const remainingWords = new Set(words.map(word => word.toLowerCase()))
     update(words, remainingWords);
@@ -54,29 +66,35 @@ window.addEventListener("load", async () => {
                 clearInterval(intervalId);
                 let response = await fetch(`${apiURL}/result/`, {
                     method: "post",
-                    body: new FormData({
+                    body: toFormData({
                         "PercentCompleted": 1 - remainingWords.size / new Set(words).size,
                         "Time": diff,
-                        "QuizId": quizId
+                        "QuizId": quizId,
+                        "MissingWords": JSON.stringify(Array.from(remainingWords))
                     })
-                }).then(data => data.json);
-                redirectToResult(response.Id);
+                }).then(async data => {
+                    console.log(data)
+                    return data.json();
+                });
+                console.log(response);
+                redirectToResult(response.id);
             }
         }, 499)
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
             if (remainingWords.has(wordInput.value.toLowerCase())) {
                 remainingWords.delete(wordInput.value);
-                if(remainingWords.size === 0) {
+                if (remainingWords.size === 0) {
                     const response = await fetch(`${apiURL}/result/`, {
                         method: "post",
-                        body: new FormData({
+                        body: toFormData({
                             "PercentCompleted": 1,
                             "Time": Math.round((start - new Date()) / 1000),
-                            "QuizId": quizId
+                            "QuizId": quizId,
+                            "MissingWords": JSON.stringify(Array.from(remainingWords))
                         })
                     }).then(data => data.json());
-                    redirectToResult(response.Id);
+                    redirectToResult(response.id);
                 }
                 update(words, remainingWords);
             }
