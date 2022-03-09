@@ -24,14 +24,14 @@ namespace Quiz.Controllers
         }
 
         [HttpPost("result/")]
-        public async Task<ActionResult<Models.QuizResult>> PostResult(double percentCompleted, string quizId, string missingWords)
+        public async Task<ActionResult<Models.QuizResult>> PostResult(double percentCompleted, string quizId, int time, string missingWords)
         {
             var words = JsonConvert.DeserializeObject<List<string>>(missingWords);
             if (words == null)
             {
                 return BadRequest();
             }
-            var quizResult = new QuizResult(percentCompleted, quizId);
+            var quizResult = new QuizResult(percentCompleted, quizId, time);
             this._context.QuizResults.Add(quizResult);
             
             await this._context.SaveChangesAsync();

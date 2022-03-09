@@ -20,18 +20,20 @@ namespace Quiz.Models
 
         public List<MissingWord>? MissingWords { get; set; }
 
-        public QuizResult(double percentCompleted, Guid quizId)
+        public QuizResult(double percentCompleted, Guid quizId, int time)
         {
             Id = Guid.NewGuid();
             PercentCompleted = percentCompleted;
             QuizId = quizId;
+            Time = time;
         }
 
-        public QuizResult(double percentCompleted, string quizId)
+        public QuizResult(double percentCompleted, string quizId, int time)
         {
             Id = Guid.NewGuid();
             PercentCompleted = percentCompleted;
             QuizId = Guid.Parse(quizId);
+            Time = time;
         }
     }
 }

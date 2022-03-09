@@ -2,18 +2,48 @@
 
 @{
     ViewData["Title"] = "Index";
-    ViewData["javascript"] = new List<string>()
+    ViewData["javascript"] = new List<string>
     {
         "js/result.js"
     };
+    var minutes = Model.Time / 60;
+    var seconds = Model.Time % 60;
+
+    var missingWords = new HashSet<string>();
+    if (Model.MissingWords != null)
+    {
+        foreach (var word in Model.MissingWords)
+        {
+            missingWords.Add(word.Word!.ToLower());
+        }
+    }
 }
 
 <h1>@Model.Quiz?.Name</h1>
 <div>
     <div>
-        <p>Completed with <time></time> left.</p>
+        <p>Finnished with <time>@(minutes):@(seconds.ToString("00"))</time> left out of 
+            <time>@(Model.Quiz?.TimeLimitSec / 60):@((Model.Quiz!.TimeLimitSec % 60).ToString("00"))</time></p>
     </div>
     <div>
-        <p>Missing from </p>
+        @if (Model.MissingWords is {Count: > 0 })
+        {
+            <p>
+                @foreach (var word in Model.Quiz!.Lyric!.Split(" "))
+                {
+                    if (missingWords.Contains(word.ToLower()))
+                    {
+                        <span class="result-missing">@word</span>
+                    }
+                    else
+                    {
+                        <span class="result-exists">@word</span>
+                    }
+                }
+            </p>
+        }
+    </div>
+    <div>
+        <p>completed <span>@((Model.PercentCompleted * 100).ToString("0.00"))%</span></p>
     </div>
 </div>

@@ -33,6 +33,20 @@ p {
   background-color: red;
 }
 
+.result-missing {
+  display: inline-flex;
+  background-color: #ff5353bf;
+  padding: 0 0.25ch;
+  margin: 0 -0.25ch;
+}
+
+.result-exists {
+  display: inline-flex;
+  background-color: #70ff70b3;
+  padding: 0 0.25ch;
+  margin: 0 -0.25ch;
+}
+
 .words span {
 
 }

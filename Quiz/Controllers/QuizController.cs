@@ -12,7 +12,7 @@ namespace Quiz.Controllers
     {
         private static string LyricFormatter(string lyric)
         {
-            lyric = Regex.Replace(lyric!, @"(?:\([^)]+\))|\.|!|\?|,|-|", "");
+            lyric = Regex.Replace(lyric!, @"(?:\([^)]+\))|\.|!|\?|,|-|;", "");
             lyric = Regex.Replace(lyric!, @"[\s\n]+", " ");
             return lyric;
         }
@@ -55,7 +55,11 @@ namespace Quiz.Controllers
                 return NotFound();
             }
 
-            var quizResult = await this._context.QuizResults.FirstOrDefaultAsync(
+            var quizResult = await this._context.QuizResults.Include(
+                r => r.Quiz
+            ).Include(
+                r => r.MissingWords
+            ).FirstOrDefaultAsync(
                 r => r.Id == id
             );
             if (quizResult == null)

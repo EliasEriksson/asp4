@@ -1,11 +1,14 @@
-const form = document.getElementById("inputForm");
-const wordInput = document.getElementById("wordInput");
-const formSubmitButton = document.getElementById("inputFormSubmitButton");
-const output = document.getElementById("found-words");
-const [quizId] = document.location.href.split("/").slice(-1);
-const timer = document.getElementById("quizTimer");
-const startQuiz = document.getElementById("startQuiz");
+const formElement = document.getElementById("inputForm");
+const wordInputElement = document.getElementById("wordInput");
+const formSubmitButtonElement = document.getElementById("inputFormSubmitButton");
+const outputElement = document.getElementById("found-words");
+const timerElement = document.getElementById("quizTimer");
+const startQuizElement = document.getElementById("startQuiz");
+const remainingWordsElement = document.getElementById("remainingWords");
+const totalWordsElement = document.getElementById("totalWords");
+const stopQuizElement = document.getElementById("stopQuiz");
 
+const [quizId] = document.location.href.split("/").slice(-1);
 const apiURL = "/aspdotnet/moment4/api/quiz";
 /**
  *
@@ -21,7 +24,8 @@ const update = (words, remainingWords) => {
             lyrics.push(`<span style="width:${word.length}ch" class="missing"></span>`);
         }
     })
-    output.innerHTML = lyrics.join(" ");
+    outputElement.innerHTML = lyrics.join(" ");
+    remainingWordsElement.innerHTML = `${remainingWords.size}`;
 }
 
 /**
@@ -45,60 +49,69 @@ const toFormData = (obj) => {
 }
 
 
+/**
+ * 
+ * @param {number} intervalId
+ * @param {Array<string>} words
+ * @param {Set<string>} remainingWords
+ * @param {Object} quizData
+ * @param {number} diff
+ */
+const endQuiz = async (intervalId, words, remainingWords, quizData, diff) => {
+    clearInterval(intervalId);
+    let response = await fetch(`${apiURL}/result/`, {
+        method: "post",
+        body: toFormData({
+            "PercentCompleted": 1 - remainingWords.size / new Set(words.map(word => word.toLowerCase())).size,
+            "Time": quizData.timeLimitSec - diff,
+            "QuizId": quizId,
+            "MissingWords": JSON.stringify(Array.from(remainingWords))
+        })
+    }).then(async data => data.json());
+    redirectToResult(response.id);
+}
+
+
 window.addEventListener("load", async () => {
     const quizData = await fetch(`${apiURL}/${quizId}/`).then(data => data.json());
-    console.log(quizData)
     const words = quizData.lyric.split(" ");
-    const remainingWords = new Set(words.map(word => word.toLowerCase()))
+    const remainingWords = new Set(words.map(word => word.toLowerCase()));
+    totalWordsElement.innerHTML = `${remainingWords.size}`;
     update(words, remainingWords);
 
-    startQuiz.addEventListener("click", async () => {
-        startQuiz.disabled = true;
-        wordInput.disabled = false;
-        formSubmitButton.disabled = false;
+    startQuizElement.addEventListener("click", async () => {
+        startQuizElement.disabled = true;
+        wordInputElement.disabled = false;
+        formSubmitButtonElement.disabled = false;
+        stopQuizElement.disabled = false;
         let start = new Date();
         const intervalId = setInterval(async () => {
             const diff = Math.round((new Date() - start) / 1000);
             if (diff < quizData.timeLimitSec) {
                 const seconds = (quizData.timeLimitSec - diff) % 60;
-                timer.innerHTML = `${Math.floor((quizData.timeLimitSec - diff) / 60)}:${seconds > 9 ? seconds : `0${seconds}`}`
+                timerElement.innerHTML = `${Math.floor((quizData.timeLimitSec - diff) / 60)}:${seconds > 9 ? seconds : `0${seconds}`}`
             } else {
-                clearInterval(intervalId);
-                let response = await fetch(`${apiURL}/result/`, {
-                    method: "post",
-                    body: toFormData({
-                        "PercentCompleted": 1 - remainingWords.size / new Set(words).size,
-                        "Time": diff,
-                        "QuizId": quizId,
-                        "MissingWords": JSON.stringify(Array.from(remainingWords))
-                    })
-                }).then(async data => {
-                    console.log(data)
-                    return data.json();
-                });
-                console.log(response);
-                redirectToResult(response.id);
+                await endQuiz(intervalId, words, remainingWords, quizData, diff);
             }
-        }, 499)
-        form.addEventListener("submit", async (e) => {
+        }, 499);
+        formElement.addEventListener("submit", async (e) => {
             e.preventDefault();
-            if (remainingWords.has(wordInput.value.toLowerCase())) {
-                remainingWords.delete(wordInput.value);
-                if (remainingWords.size === 0) {
-                    const response = await fetch(`${apiURL}/result/`, {
-                        method: "post",
-                        body: toFormData({
-                            "PercentCompleted": 1,
-                            "Time": Math.round((start - new Date()) / 1000),
-                            "QuizId": quizId,
-                            "MissingWords": JSON.stringify(Array.from(remainingWords))
-                        })
-                    }).then(data => data.json());
-                    redirectToResult(response.id);
+            for (const word of wordInputElement.value.toLowerCase().split(" ")) {
+                if (remainingWords.has(word)) {
+                    remainingWords.delete(word);
+                    if (remainingWords.size === 0) {
+                        await endQuiz(
+                            intervalId, words, remainingWords, quizData, Math.round((new Date() - start) / 1000)
+                        );
+                    }
+                    update(words, remainingWords);
                 }
-                update(words, remainingWords);
+                wordInputElement.value = "";
             }
-            wordInput.value = "";
-        })
+        });
+        
+        stopQuizElement.addEventListener("click", async () => endQuiz(
+            intervalId, words, remainingWords, quizData, Math.round((new Date() - start) / 1000)
+        ));
     })
 })
