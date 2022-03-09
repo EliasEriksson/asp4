@@ -10,27 +10,52 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<div>
+    <form method="get" asp-action="Index" asp-controller="Quiz">
+        <div class="form-group">
+            <input name="search" type="text" autocomplete="off"/>
+            <input type="submit"/>
+        </div>
+        
+    </form>
+</div>
+
 <table class="table">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TimeLimitSec)
-            </th>
-        </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            Avg. Completion
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeLimitSec)
+        </th>
+    </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
         <tr>
             <td>
                 <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TimeLimitSec)s
+                @if (item.AvgPercentCompleted < 0)
+                {
+                    @("Not Completed")
+                }
+                else
+                {
+                    @($"{(item.AvgPercentCompleted * 100):.00}%")
+                }
+            </td>
+            <td>
+                @($"{item.TimeLimitSec / 60}:{(item.TimeLimitSec % 60):00}")
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>

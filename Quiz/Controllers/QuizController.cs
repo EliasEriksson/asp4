@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Quiz.Data;
 using Quiz.Models;
 
@@ -14,11 +15,12 @@ namespace Quiz.Controllers
         {
             public double AvgPercentCompleted { get; set; }
 
-            public QuizWithAvg(Guid id, string? name, string? lyric, double avgPercentCompleted)
+            public QuizWithAvg(Guid id, string? name, string? lyric, int time, double avgPercentCompleted)
             {
                 this.Id = id;
                 this.Name = name;
                 this.Lyric = lyric;
+                this.TimeLimitSec = time;
                 this.AvgPercentCompleted = avgPercentCompleted;
             }
         }
@@ -47,14 +49,22 @@ namespace Quiz.Controllers
                 QuizId = g.Key,
                 AvgPercentCompleted = g.Average()
             });
-            var data = await _context.Quizzes.Join(
+            var completedQuizzes = await _context.Quizzes.Join(
                 intermediateModel,
                 quiz => quiz.Id,
-                temp => temp.QuizId,
+                intermediate => intermediate.QuizId,
                 (quiz, intermediate) => new QuizWithAvg(
-                    quiz.Id, quiz.Name, quiz.Lyric, intermediate.AvgPercentCompleted
+                    quiz.Id, quiz.Name, quiz.Lyric, quiz.TimeLimitSec, intermediate.AvgPercentCompleted
                 )
             ).ToListAsync();
+
+            var uncompletedQuizzes = await _context.Quizzes
+                .Where(quiz => !_context.QuizResults
+                    .Select(quizResult => quizResult.QuizId).Contains(quiz.Id))
+                .Select(q => new QuizWithAvg(q.Id, q.Name, q.Lyric, q.TimeLimitSec, -1))
+                .ToListAsync();
+
+            var data = completedQuizzes.Concat(uncompletedQuizzes).OrderBy(quiz => quiz.Name).ToList();
 
             return View(data);
         }
@@ -123,7 +133,7 @@ namespace Quiz.Controllers
                 quiz.Lyric = LyricFormatter(quiz.Lyric);
                 _context.Add(quiz);
                 await _context.SaveChangesAsync();
-                return this.View("Details", quiz);
+                return RedirectToAction("Details", "Quiz", new {id = quiz.Id});
             }
 
             return View(quiz);
