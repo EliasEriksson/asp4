@@ -47,3 +47,13 @@
         <p>completed <span>@((Model.PercentCompleted * 100).ToString("0.00"))%</span></p>
     </div>
 </div>
+<div>
+    <ul>
+        <li>
+            <a asp-controller="Quiz" asp-action="Details" asp-route-id="@(Model.Quiz.Id)">Back to Quiz</a>
+        </li>
+        <li>
+            <a asp-controller="Quiz" asp-action="Index">Back to quiz list</a>
+        </li>
+    </ul>
+</div>

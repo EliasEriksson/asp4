@@ -1,15 +1,28 @@
-#nullable disable
 using System.Security.Claims;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Quiz.Data;
+using Quiz.Models;
 
 namespace Quiz.Controllers
 {
     public class QuizController : Controller
     {
+        public class QuizWithAvg : Models.Quiz
+        {
+            public double AvgPercentCompleted { get; set; }
+
+            public QuizWithAvg(Guid id, string? name, string? lyric, double avgPercentCompleted)
+            {
+                this.Id = id;
+                this.Name = name;
+                this.Lyric = lyric;
+                this.AvgPercentCompleted = avgPercentCompleted;
+            }
+        }
+
         private static string LyricFormatter(string lyric)
         {
             lyric = Regex.Replace(lyric!, @"(?:\([^)]+\))|\.|!|\?|,|-|;", "");
@@ -27,7 +40,23 @@ namespace Quiz.Controllers
         // GET: Quiz
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Quizzes.ToListAsync());
+            var intermediateModel = _context.QuizResults.GroupBy(
+                r => r.QuizId, p => p.PercentCompleted
+            ).Select(g => new
+            {
+                QuizId = g.Key,
+                AvgPercentCompleted = g.Average()
+            });
+            var data = await _context.Quizzes.Join(
+                intermediateModel,
+                quiz => quiz.Id,
+                temp => temp.QuizId,
+                (quiz, intermediate) => new QuizWithAvg(
+                    quiz.Id, quiz.Name, quiz.Lyric, intermediate.AvgPercentCompleted
+                )
+            ).ToListAsync();
+
+            return View(data);
         }
 
         // GET: Quiz/Details/5
@@ -94,7 +123,7 @@ namespace Quiz.Controllers
                 quiz.Lyric = LyricFormatter(quiz.Lyric);
                 _context.Add(quiz);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return this.View("Details", quiz);
             }
 
             return View(quiz);
@@ -123,6 +152,7 @@ namespace Quiz.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Edit(Guid id, [Bind("Id,Name,Lyric,TimeLimitSec,UserId")] Models.Quiz quiz)
         {
             if (id != quiz.Id)
@@ -153,13 +183,14 @@ namespace Quiz.Controllers
                     }
                 }
 
-                return RedirectToAction(nameof(Index));
+                return this.View("Details", quiz);
             }
 
             return View(quiz);
         }
 
         // GET: Quiz/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -180,6 +211,7 @@ namespace Quiz.Controllers
         // POST: Quiz/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var quiz = await _context.Quizzes.FindAsync(id);
