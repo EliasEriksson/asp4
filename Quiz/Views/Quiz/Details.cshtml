@@ -1,3 +1,4 @@
+@using System.Security.Claims
 @model Quiz
 
 @{
@@ -8,38 +9,52 @@
     };
 }
 
-<h1>@Model.Name</h1>
+<div class="quiz-heading">
+    <h1>@Model.Name</h1>
+    <nav class="quiz-nav">
+        <ul>
+            @if (User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.UserId)
+            {
+                <li>
+                    <a asp-action="Edit" asp-route-id="@(Model.Id)">Edit</a>
+                </li>
+                <li>
+                    <a asp-action="Delete" asp-route-id="@(Model.Id)">Delete</a>
+                </li>
+            }
+            <li>
+                <a asp-action="Index">Back to List</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<hr/>
+
 <div>
     <div>
-        <div>
-            <button id="startQuiz">Start Quiz</button>
-            <button id="stopQuiz" disabled>Submit Quiz</button>
-        </div>
-        <time id="quizTimer">@(Model.TimeLimitSec / 60):@((Model.TimeLimitSec % 60).ToString("00"))</time>
-    </div>
-
-    <form id="inputForm">
-        <div class="form-group">
-            <label></label>
-            <input autocomplete="off" disabled id="wordInput" class="form-control"/>
-        </div>
-        <input id="inputFormSubmitButton" disabled type="submit">
-    </form>
-    <div>
-        <p id="found-words" class="found-words"></p>
-        <p>Remaining: <span id="remainingWords"></span> / <span id="totalWords"></span></p>
+        <button id="startQuiz">Start Quiz</button>
     </div>
 </div>
-<div>
-    <ul>
-        <li>
-            <a asp-action="Edit" asp-route-id="@(Model.Id)">Edit</a>
-        </li>
-        <li>
-            <a asp-action="Delete" asp-route-id="@(Model.Id)">Delete</a>
-        </li>
-        <li>
-            <a asp-action="Index">Back to List</a>
-        </li>
-    </ul>
+
+<form id="inputForm">
+    <div class="input-group">
+        <label>Words in the lyrics</label>
+        <input autocomplete="off" disabled id="wordInput" class="form-control"/>
+    </div>
+    <div class="submit-group">
+        <button id="inputFormSubmitButton" disabled>Guess</button>
+        <button id="stopQuiz" disabled>Submit Quiz</button>
+    </div>
+</form>
+
+<div class="quiz-lyrics">
+    <div class="quiz-lyrics-heading">
+        <h2>Lyrics</h2>
+        <div class="quiz-lyrics-heading-info">
+            <p>Remaining: <span id="remainingWords"></span> / <span id="totalWords"></span></p>
+            <p>Time <time id="quizTimer">@($"{Model.TimeLimitSec / 60}:{(Model.TimeLimitSec % 60):00}")</time></p>
+        </div>
+    </div>
+    <hr/>
+    <p id="found-words" class="found-words"></p>
 </div>

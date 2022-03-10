@@ -2,7 +2,15 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="main">
+    <div class="text">
+        <h1>Lyrics Quiz</h1>
+        <p>
+            How well do you know the lyrics of your favorite songs? <a asp-controller="Quiz" asp-action="Create">Add</a> your favorites
+            and challange your friends about who knows the lyrics the best!
+        </p>
+        <p>
+            <a asp-controller="Quiz" asp-action="Index">Browse and search</a> the library of songs other users have added and try to beat the avarage completion!
+        </p>
+    </div>
 </div>

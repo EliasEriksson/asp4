@@ -5,22 +5,26 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Quizes</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-
 <div>
     <form method="get" asp-action="Index" asp-controller="Quiz">
-        <div class="form-group">
+        <div class="input-group">
+            <label>Name</label>
             <input name="search" type="text" autocomplete="off"/>
-            <input type="submit"/>
+        </div>
+        <div class="submit-group">
+            <button>Search</button>
         </div>
         
     </form>
 </div>
 
+<div class="table-heading">
+    <h1>Quizes</h1>
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+</div>
+<hr/>
 <table class="table">
     <thead>
     <tr>

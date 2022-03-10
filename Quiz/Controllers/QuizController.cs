@@ -27,7 +27,7 @@ namespace Quiz.Controllers
 
         private static string LyricFormatter(string lyric)
         {
-            lyric = Regex.Replace(lyric!, @"(?:\([^)]+\))|\.|!|\?|,|-|;", "");
+            lyric = Regex.Replace(lyric!, @"(?:\([^)]+\))|\.|!|\?|,|-|;|(?:\[[^)]+\])", "");
             lyric = Regex.Replace(lyric!, @"[\s\n]+", " ");
             return lyric;
         }
@@ -40,7 +40,7 @@ namespace Quiz.Controllers
         }
 
         // GET: Quiz
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? search)
         {
             var intermediateModel = _context.QuizResults.GroupBy(
                 r => r.QuizId, p => p.PercentCompleted
@@ -49,22 +49,33 @@ namespace Quiz.Controllers
                 QuizId = g.Key,
                 AvgPercentCompleted = g.Average()
             });
-            var completedQuizzes = await _context.Quizzes.Join(
+
+            IQueryable<Models.Quiz> query;
+            if (search != null || search == "")
+            {
+                query = _context.Quizzes.Where(quiz => quiz.Name!.ToLower().Contains(search.ToLower()));
+            }
+            else
+            {
+                query = _context.Quizzes;
+            }
+            
+            var completedQuizzes = query.Join(
                 intermediateModel,
                 quiz => quiz.Id,
                 intermediate => intermediate.QuizId,
                 (quiz, intermediate) => new QuizWithAvg(
                     quiz.Id, quiz.Name, quiz.Lyric, quiz.TimeLimitSec, intermediate.AvgPercentCompleted
                 )
-            ).ToListAsync();
+            );
 
-            var uncompletedQuizzes = await _context.Quizzes
+            var uncompletedQuizzes = _context.Quizzes
                 .Where(quiz => !_context.QuizResults
                     .Select(quizResult => quizResult.QuizId).Contains(quiz.Id))
-                .Select(q => new QuizWithAvg(q.Id, q.Name, q.Lyric, q.TimeLimitSec, -1))
-                .ToListAsync();
+                .Select(q => new QuizWithAvg(q.Id, q.Name, q.Lyric, q.TimeLimitSec, -1));
 
-            var data = completedQuizzes.Concat(uncompletedQuizzes).OrderBy(quiz => quiz.Name).ToList();
+            // var data = await completedQuizzes.ToListAsync();
+            var data = (await completedQuizzes.ToListAsync()).Concat(await uncompletedQuizzes.ToListAsync()).OrderBy(quiz => quiz.Name).ToList();
 
             return View(data);
         }
