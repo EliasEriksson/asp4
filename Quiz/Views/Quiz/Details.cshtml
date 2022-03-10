@@ -9,7 +9,7 @@
     };
 }
 
-<div class="quiz-heading">
+<div class="heading">
     <h1>@Model.Name</h1>
     <nav class="quiz-nav">
         <ul>
@@ -30,19 +30,13 @@
 </div>
 <hr/>
 
-<div>
-    <div>
-        <button id="startQuiz">Start Quiz</button>
-    </div>
-</div>
-
 <form id="inputForm">
     <div class="input-group">
         <label>Words in the lyrics</label>
-        <input autocomplete="off" disabled id="wordInput" class="form-control"/>
+        <input autocomplete="off" id="wordInput" class="form-control"/>
     </div>
     <div class="submit-group">
-        <button id="inputFormSubmitButton" disabled>Guess</button>
+        <button id="inputFormSubmitButton">Guess</button>
         <button id="stopQuiz" disabled>Submit Quiz</button>
     </div>
 </form>
@@ -56,5 +50,5 @@
         </div>
     </div>
     <hr/>
-    <p id="found-words" class="found-words"></p>
+    <p id="found-words" class="found-words lyrics"></p>
 </div>

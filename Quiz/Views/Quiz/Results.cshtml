@@ -19,16 +19,28 @@
     }
 }
 
-<h1>@Model.Quiz?.Name</h1>
+<div class="heading">
+    <div class="result-heading">
+        <h1>@Model.Quiz?.Name</h1>
+        <p>Completed: <span>@((Model.PercentCompleted * 100).ToString("0.00"))%</span></p>
+    </div>
+    <nav class="heading-nav">
+        <ul>
+            <li>
+                <a asp-controller="Quiz" asp-action="Details" asp-route-id="@(Model.Quiz?.Id)">Back to Quiz</a>
+            </li>
+            <li>
+                <a asp-controller="Quiz" asp-action="Index">Back to quiz list</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<hr/>
 <div>
     <div>
-        <p>Finnished with <time>@(minutes):@(seconds.ToString("00"))</time> left out of 
-            <time>@(Model.Quiz?.TimeLimitSec / 60):@((Model.Quiz!.TimeLimitSec % 60).ToString("00"))</time></p>
-    </div>
-    <div>
-        @if (Model.MissingWords is {Count: > 0 })
+        @if (Model.MissingWords != null)
         {
-            <p>
+            <p class="lyrics">
                 @foreach (var word in Model.Quiz!.Lyric!.Split(" "))
                 {
                     if (missingWords.Contains(word.ToLower()))
@@ -43,17 +55,5 @@
             </p>
         }
     </div>
-    <div>
-        <p>completed <span>@((Model.PercentCompleted * 100).ToString("0.00"))%</span></p>
-    </div>
-</div>
-<div>
-    <ul>
-        <li>
-            <a asp-controller="Quiz" asp-action="Details" asp-route-id="@(Model.Quiz.Id)">Back to Quiz</a>
-        </li>
-        <li>
-            <a asp-controller="Quiz" asp-action="Index">Back to quiz list</a>
-        </li>
-    </ul>
+
 </div>

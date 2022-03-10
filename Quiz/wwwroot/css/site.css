@@ -41,6 +41,11 @@ header a, footer a {
 header a:hover, footer a:hover {
     text-decoration: underline;
 }
+
+hr {
+    margin-bottom: 1em;
+}
+
 /* main styles*/
 /* links */
 main a {
@@ -94,14 +99,14 @@ main form button {
 }
 
 /* quiz details */
-.quiz-heading {
+.heading {
     display: flex;
     justify-content: space-between;
     align-items: end;
     margin-top: 1em;
 }
 
-.quiz-nav ul {
+.heading nav ul {
     list-style-type: none;
     list-style-position: inside;
     padding: 0;
@@ -140,6 +145,17 @@ html {
 p {
     max-width: 65ch;
 }
+
+/* result */
+.result-heading {
+    display: flex;
+    gap: 1em;
+    align-items: center;
+}
+.result-heading p span {
+    font-weight: bold;
+}
+
 
 /* header styling */
 header {
@@ -191,6 +207,7 @@ header nav ul {
 
 /* footer */
 footer {
+    margin-top: 2em;
     padding-top: 1em;
     padding-bottom: 2em;
     background-color: #0b492e;
@@ -203,28 +220,27 @@ footer {
 }
 
 /* quiz styling */
-.words span:before {
-    display: flex;
-    width: 1ch;
-    background-color: red;
+.lyrics {
+    font-size: 1.1em;
 }
 
 .missing {
     display: inline-flex;
     height: 0.9em;
-    background-color: red;
+    background-color: #EA8181;
+    border-radius: 3px;
 }
 
 .result-missing {
     display: inline-flex;
-    background-color: #ff5353bf;
+    background-color: #EA8181;
     padding: 0 0.25ch;
     margin: 0 -0.25ch;
 }
 
 .result-exists {
     display: inline-flex;
-    background-color: #70ff70b3;
+    background-color: #2baa74;
     padding: 0 0.25ch;
     margin: 0 -0.25ch;
 }
