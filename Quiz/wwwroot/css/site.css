@@ -59,6 +59,14 @@ hr {
     justify-content: space-between;
 }
 
+.content-heading nav ul {
+    display: flex;
+    list-style-type: none;
+    list-style-position: inside;
+    padding: 0;
+    gap: 1em;
+}
+
 /* main styles*/
 /* links */
 main a {
@@ -111,13 +119,23 @@ main .submit-group > * {
     flex-basis: 50%;
 }
 
-main form button {
+main form button, main form a, main form a:hover {
     border: none;
     background-color: #0b492e;
     padding: 0.5em 1em;
     color: white;
     font-weight: bold;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1em;
+    text-decoration: none;
+}
+
+main form textarea {
+    resize: none;
+    height: 40vh;
 }
 
 /* quiz details */
@@ -189,6 +207,10 @@ p {
 
 .bold {
     font-weight: bold;
+}
+
+.text-danger, .alert {
+    color: #BA2121;
 }
 
 /* result */

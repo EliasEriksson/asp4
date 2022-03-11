@@ -13,7 +13,7 @@ namespace Quiz.Models
         [Required] public string? Lyric { get; set; }
 
         [Required]
-        [Display(Name = "Time Limit")]
+        [Display(Name = "Time Limit (seconds)")]
         public int TimeLimitSec { get; set; }
 
         [Required] public string? UserId { get; set; }

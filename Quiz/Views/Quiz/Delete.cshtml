@@ -6,13 +6,18 @@
 
 <div class="content-heading">
     <h1>Delete</h1>
-    <nav><a asp-action="Index">Quiz list</a></nav>
+    <nav>
+        <a asp-action="Index">Quiz list</a>
+    </nav>
 </div>
 <hr/>
 <div class="content">
     <div class="text">
-        <p>You are about to delete: <em class="bold">@Html.DisplayFor(model => model.Name)</em></p>
+        <p>You are about to delete: <strong >@Html.DisplayFor(model => model.Name)</strong></p>
         <p>Are you sure you want to delete it?</p>
+        <p>
+            <strong class="alert">This is irreversible.</strong>
+        </p>
     </div>
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id"/>
