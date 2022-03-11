@@ -1,9 +1,7 @@
 const formElement = document.getElementById("inputForm");
 const wordInputElement = document.getElementById("wordInput");
-const formSubmitButtonElement = document.getElementById("inputFormSubmitButton");
 const outputElement = document.getElementById("found-words");
 const timerElement = document.getElementById("quizTimer");
-// const startQuizElement = document.getElementById("startQuiz");
 const remainingWordsElement = document.getElementById("remainingWords");
 const totalWordsElement = document.getElementById("totalWords");
 const stopQuizElement = document.getElementById("stopQuiz");

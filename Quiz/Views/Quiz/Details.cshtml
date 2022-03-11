@@ -49,6 +49,8 @@
             <p>Time <time id="quizTimer">@($"{Model.TimeLimitSec / 60}:{(Model.TimeLimitSec % 60):00}")</time></p>
         </div>
     </div>
-    <hr/>
-    <p id="found-words" class="found-words lyrics"></p>
+    <div class="p-width lyrics">
+        <hr class="p-width"/>
+        <p id="found-words" class="found-words"></p>
+    </div>
 </div>

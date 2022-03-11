@@ -5,8 +5,9 @@
     ViewData["Title"] = "Index";
 }
 
-<div>
-    <form method="get" asp-action="Index" asp-controller="Quiz">
+<h1>Quizes</h1>
+<div class="content-heading">
+    <form class="search-form" method="get" asp-action="Index" asp-controller="Quiz">
         <div class="input-group">
             <label>Name</label>
             <input name="search" type="text" autocomplete="off"/>
@@ -14,18 +15,13 @@
         <div class="submit-group">
             <button>Search</button>
         </div>
-        
     </form>
-</div>
-
-<div class="table-heading">
-    <h1>Quizes</h1>
-    <p>
+    <nav>
         <a asp-action="Create">Create New</a>
-    </p>
+    </nav>
 </div>
 <hr/>
-<table class="table">
+<table>
     <thead>
     <tr>
         <th>

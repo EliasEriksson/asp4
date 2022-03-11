@@ -10,6 +10,12 @@ img {
 }
 
 /* general page styles */
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
 .viewport-height {
     min-height: 100vh;
 }
@@ -43,7 +49,14 @@ header a:hover, footer a:hover {
 }
 
 hr {
+    margin-top: 5px;
     margin-bottom: 1em;
+}
+
+.content-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
 }
 
 /* main styles*/
@@ -68,11 +81,20 @@ th {
 }
 
 /* from */
+.search-form {
+    padding-top: 1.5em;
+}
+
 main form {
     display: flex;
     flex-direction: column;
     max-width: 500px;
+    flex-basis: 500px;
     gap: 1em;
+}
+
+main form hr {
+    margin-bottom: 0;
 }
 
 main .input-group {
@@ -99,6 +121,10 @@ main form button {
 }
 
 /* quiz details */
+header {
+    filter: drop-shadow(0 5px 5px black);
+    margin-bottom: 1.5em;
+}
 .heading {
     display: flex;
     justify-content: space-between;
@@ -114,26 +140,36 @@ main form button {
     gap: 1em;
 }
 
+.lyrics {
+    font-size: 1.1em;
+}
+
 .quiz-lyrics-heading {
     display: flex;
     justify-content: space-between;
+    max-width: 65ch;
 }
 
 .quiz-lyrics-heading-info {
     display: flex;
     gap: 1em;
+    align-items: end;
 }
 
 /* table */
-.table-heading {
-    display: flex;
-    align-items: end;
-    justify-content: space-between;
-}
+
 
 /* text styling, paragraphs and headings */
 html {
     line-height: 1.5;
+}
+
+h1 {
+    margin-top: 1.5em;
+}
+
+h2, h3 {
+    margin-top: 1em;
 }
 
 .text {
@@ -144,6 +180,15 @@ html {
 
 p {
     max-width: 65ch;
+}
+
+.p-width {
+    max-width: 65ch;
+    width: 100%;
+}
+
+.bold {
+    font-weight: bold;
 }
 
 /* result */
@@ -220,10 +265,6 @@ footer {
 }
 
 /* quiz styling */
-.lyrics {
-    font-size: 1.1em;
-}
-
 .missing {
     display: inline-flex;
     height: 0.9em;
