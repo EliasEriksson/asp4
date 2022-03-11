@@ -51,13 +51,15 @@ namespace Quiz.Controllers
             });
 
             IQueryable<Models.Quiz> query;
-            if (search != null || search == "")
+            if (!string.IsNullOrEmpty(search))
             {
                 query = _context.Quizzes.Where(quiz => quiz.Name!.ToLower().Contains(search.ToLower()));
+                ViewBag.Search = true;
             }
             else
             {
                 query = _context.Quizzes;
+                ViewBag.Search = false;
             }
             
             var completedQuizzes = query.Join(
@@ -69,7 +71,7 @@ namespace Quiz.Controllers
                 )
             );
 
-            var uncompletedQuizzes = _context.Quizzes
+            var uncompletedQuizzes = query
                 .Where(quiz => !_context.QuizResults
                     .Select(quizResult => quizResult.QuizId).Contains(quiz.Id))
                 .Select(q => new QuizWithAvg(q.Id, q.Name, q.Lyric, q.TimeLimitSec, -1));

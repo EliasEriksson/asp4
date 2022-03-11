@@ -14,6 +14,7 @@ namespace Quiz.Models
 
         [Required]
         [Display(Name = "Time Limit (seconds)")]
+        [Range(0, int.MaxValue)]
         public int TimeLimitSec { get; set; }
 
         [Required] public string? UserId { get; set; }
