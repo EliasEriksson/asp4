@@ -1,7 +1,7 @@
 @model QuizResult
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = $"Result | {Model.Quiz?.Name}";
     ViewData["javascript"] = new List<string>
     {
         "js/result.js"
@@ -17,7 +17,7 @@
     }
 }
 
-<div class="heading">
+<div class="content-heading">
     <div class="result-heading">
         <h1>@Model.Quiz?.Name</h1>
         <p>Completed: <span>@((Model.PercentCompleted * 100).ToString("0.00"))%</span></p>
@@ -25,10 +25,10 @@
     <nav class="heading-nav">
         <ul>
             <li>
-                <a asp-controller="Quiz" asp-action="Details" asp-route-id="@(Model.Quiz?.Id)">Back to Quiz</a>
+                <a asp-controller="Quiz" asp-action="Details" asp-route-id="@(Model.Quiz?.Id)">Quiz</a>
             </li>
             <li>
-                <a asp-controller="Quiz" asp-action="Index">Back to quiz list</a>
+                <a asp-controller="Quiz" asp-action="Index">Quiz list</a>
             </li>
         </ul>
     </nav>

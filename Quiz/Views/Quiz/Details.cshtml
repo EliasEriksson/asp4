@@ -2,14 +2,14 @@
 @model Quiz
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Model.Name;
     ViewData["javascript"] = new List<string>
     {
         "js/quiz.js"
     };
 }
 
-<div class="heading">
+<div class="content-heading">
     <h1>@Model.Name</h1>
     <nav class="quiz-nav">
         <ul>
@@ -23,7 +23,7 @@
                 </li>
             }
             <li>
-                <a asp-action="Index">Back to List</a>
+                <a asp-action="Index">Quiz list</a>
             </li>
         </ul>
     </nav>

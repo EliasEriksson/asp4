@@ -2,7 +2,9 @@
 @model IEnumerable<QuizController.QuizWithAvg>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["title"] = "Quizzes";
+    const string timeLimitLabel = "Time Limit";
+    const string avgCompletedLabel = "Avg. %";
 }
 
 <h1>Quizes</h1>
@@ -32,10 +34,10 @@
             @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
-            Avg. Completion
+            @avgCompletedLabel
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TimeLimitSec)
+            @timeLimitLabel
         </th>
     </tr>
     </thead>
@@ -43,10 +45,10 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>
+            <td data-label="@($"{Html.DisplayNameFor(model => model.Name)}: ")">
                 <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
             </td>
-            <td>
+            <td data-label="@($"{avgCompletedLabel}: ")">
                 @if (item.AvgPercentCompleted < 0)
                 {
                     @("Not Completed")
@@ -56,7 +58,7 @@
                     @($"{(item.AvgPercentCompleted * 100):.00}%")
                 }
             </td>
-            <td>
+            <td data-label="@($"{timeLimitLabel}: ")">
                 @($"{item.TimeLimitSec / 60}:{(item.TimeLimitSec % 60):00}")
             </td>
         </tr>

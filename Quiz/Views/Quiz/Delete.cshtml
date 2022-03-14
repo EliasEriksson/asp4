@@ -1,13 +1,16 @@
 @model Quiz
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = $"Delete | {Model.Name}";
 }
 
 <div class="content-heading">
     <h1>Delete</h1>
     <nav>
-        <a asp-action="Index">Quiz list</a>
+        <ul>
+            <a asp-action="Details" asp-route-id="@Model.Id">Quiz</a>
+            <a asp-action="Index">Quiz list</a>
+        </ul>
     </nav>
 </div>
 <hr/>
