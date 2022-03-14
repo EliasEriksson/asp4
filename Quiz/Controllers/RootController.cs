@@ -13,11 +13,17 @@ public class RootController : Controller
         _logger = logger;
     }
 
+    /**
+     * serves the home page
+     */
     public IActionResult Index()
     {
         return View();
     }
 
+    /**
+     * serves the how to play page
+     */
     public IActionResult Instructions()
     {
         return View();

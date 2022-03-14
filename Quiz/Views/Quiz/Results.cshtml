@@ -2,10 +2,6 @@
 
 @{
     ViewData["Title"] = $"Result | {Model.Quiz?.Name}";
-    ViewData["javascript"] = new List<string>
-    {
-        "js/result.js"
-    };
 
     var missingWords = new HashSet<string>();
     if (Model.MissingWords != null)

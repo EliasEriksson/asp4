@@ -3,6 +3,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Quiz.Models
 {
+    /**
+     * Quiz result model
+     *
+     * related a specific quiz.
+     * relates to all words missing from the users guesses.
+     */
     public class QuizResult
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

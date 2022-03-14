@@ -2,6 +2,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Quiz.Models
 {
+    /**
+     * model for a missing word
+     *
+     * related to a specific quiz result.
+     */
     public class MissingWord
     {
         public int Id { get; set; }

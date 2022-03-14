@@ -5,6 +5,11 @@ using Quiz.Models;
 
 namespace Quiz.Controllers
 {
+    /**
+     * endpoints for javascript
+     *
+     * no authentication is required since users dont have to be logged in to do a quiz
+     */
     [Route("/api/quiz/")]
     public class ApiController : Controller
     {
@@ -16,6 +21,9 @@ namespace Quiz.Controllers
             _context = context;
         }
         
+        /**
+         * returns required data to run the quiz game.
+         */
         [HttpGet("{id}")]
         public async Task<ActionResult<Models.Quiz>> GetQuiz(string id)
         {
@@ -23,6 +31,13 @@ namespace Quiz.Controllers
             return quiz == null ? NotFound() : quiz;
         }
 
+        /**
+         * creates a new quiz result with post data
+         *
+         * first creates the quiz result.
+         * when the result object is submitted to the database each missing word is submitted
+         * relating to the result.
+         */
         [HttpPost("result/")]
         public async Task<ActionResult<Models.QuizResult>> PostResult(double percentCompleted, string quizId, int time,
             string missingWords)
