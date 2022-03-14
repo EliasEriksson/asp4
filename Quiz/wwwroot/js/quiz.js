@@ -83,6 +83,7 @@ window.addEventListener("load", async () => {
     let start = null;
     formElement.addEventListener("submit", async (e) => {
         e.preventDefault();
+        if (!wordInputElement.value) return;
         if (!started) {
             stopQuizElement.disabled = false;
             start = new Date();

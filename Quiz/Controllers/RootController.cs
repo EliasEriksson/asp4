@@ -18,6 +18,11 @@ public class RootController : Controller
         return View();
     }
 
+    public IActionResult Instructions()
+    {
+        return View();
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
