@@ -27,7 +27,7 @@ namespace Quiz.Controllers
 
         private static string LyricFormatter(string lyric)
         {
-            lyric = Regex.Replace(lyric!, @"(?:\([^)]+\))|\.|!|\?|,|-|;|(?:\[[^)]+\])", "");
+            lyric = Regex.Replace(lyric!, @"(?:\([^)]+\))|\.|!|\?|,|-|;|(?:\[[^)]+\])|", "");
             lyric = Regex.Replace(lyric!, @"[\s\n]+", " ");
             return lyric;
         }

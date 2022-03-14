@@ -1,0 +1,71 @@
+@{
+    ViewData["title"] = "How to play?";
+}
+
+<h1>How to play?</h1>
+<div class="text">
+    <h2>Play existing quiz</h2>
+    <p>
+        To play an existing quiz choose one from the list of availeble <a asp-controller="Quiz" asp-action="Index">quizzes</a>.
+    </p>
+</div>
+<div class="text">
+    <h2>Controlls</h2>
+    <p>
+        When you have chosen your quiz to play all you have to do is start guessing!
+        Time starts when you submit your first guess.
+    </p>
+    <p>
+        No lyrics will contain punctuation so no need to guess for
+        <em>
+            <span class="emphasise">.</span>
+        </em>,
+        <em>
+            <span class="emphasise">!</span>
+        </em>,
+        <em>
+            <span class="emphasise">-</span>
+        </em> or similar however contractions still exists
+        so
+        <em>
+            <span class="emphasise">it's</span>
+        </em> is different to
+        <em>
+            <span class="emphasise">it is</span>
+        </em>.
+    </p>
+    <p>
+        Lyrics that is usually within parentheses or square brackets (usually sung in the background) should not be in the lyrics.
+    </p>
+    <p>
+        You are able to guess for multiple words at the same time in the text input field,
+        it will automaticly break whatever you type into words and guess those words at the same time.
+    </p>
+</div>
+<div class="text">
+    <h2>Submit you own quiz</h2>
+    <p>
+        To submit your own quiz you need to create an account.
+        Once you have an account you can <a asp-controller="Quiz" asp-action="Create">create a new quiz</a>.
+    </p>
+    <p>
+        Easiest way to create a new song is to google
+        <em>
+            <span class="emphasise">the song</span>
+        </em> and add
+        <em>
+            <span class="emphasise">lyrics</span>
+        </em>
+        and then copy paste the lyrics into the form.
+        It does not matter if the song have lyrics within parentheses or square brackets it will be removed automaticly.
+    </p>
+    <p>
+        All you have to think about is to make sure the <strong>lyrics</strong> you submit are guessable for a good quiz.
+    </p>
+    <p>
+        By editing the your submitting quiz you will be able to view exactly what the proccessed lyrics look like.
+    </p>
+    <p>
+        If you are unsure about the time submit either 600 (10 minutes) or 900 (15 minutes)
+    </p>
+</div>
