@@ -3,38 +3,63 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>@ViewData["Title"] - Quiz</title>
+    <title>Lyrics Quiz | @ViewData["Title"]</title>
     <base href="/aspdotnet/moment4/static/"/>
-    <link rel="icon" type="image/png" href="/aspdotnet/moment4/static/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+          rel="stylesheet">
+    <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="css/site.css" asp-append-version="true"/>
     @if (ViewData["javascript"] != null)
     {
-        @foreach (var src in (List<string>)ViewData["javascript"]!)
+        @foreach (var src in (List<string>) ViewData["javascript"]!)
         {
             <script type="module" src="@src"></script>
         }
     }
 </head>
 <body>
-<header>
-    <nav>
-        <ul>
-            <li><a asp-controller="Root" asp-action="Index">Home</a></li>
-            <li><a asp-controller="Quiz" asp-action="Index">Quiz</a></li>
-        </ul>
-        <partial name="_LoginPartial"/>
-    </nav>
-</header>
-
-<main>
-    @RenderBody()
-</main>
-
+<div class="viewport-height">
+    <header>
+        <div class="header">
+            <a class="logotype" asp-controller="Root" asp-action="Index">
+                <partial name="_MusircNotePartial"/>
+            </a>
+            <nav>
+                <div class="left">
+                    <ul>
+                        <li>
+                            <a asp-controller="Root" asp-action="Index">Home</a>
+                        </li>
+                        <li>
+                            <a asp-controller="Quiz" asp-action="Index">Quizzes</a>
+                        </li>
+                        <li>
+                            <a asp-controller="Root" asp-action="Instructions">How to play?</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="right">
+                    <partial name="_LoginPartial"/>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <div class="main">
+            @RenderBody()
+        </div>
+    </main>
+</div>
 <footer>
+    <div class="footer">
+        <p>Created by Elias Eriksson</p>
+        <a class="external" href="https://github.com/eliaseriksson/asp4/">repo <partial name="_ExternalLink"/></a>
+    </div>
 </footer>
 <script src="lib/jquery/dist/jquery.min.js"></script>
-<script src="lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/site.js" asp-append-version="true"></script>
-@await RenderSectionAsync("Scripts", required: false)
+@await RenderSectionAsync("Scripts", false)
 </body>
 </html>

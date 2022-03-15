@@ -1,41 +1,46 @@
 @model Quiz
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = $"Edit | {Model.Name}";
 }
 
-<h1>Edit</h1>
+<div class="content-heading">
+    <h1>Edit</h1>
+    <nav>
+        <ul>
+            <li><a asp-action="Details" asp-route-id="@Model.Id">Quiz</a></li>
+            <li><a asp-action="Index">Quiz list</a></li>
+        </ul>
+        
+        
+    </nav>
+</div>
 
-<h4>Quiz</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
+            <div class="input-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="input-group">
                 <label asp-for="Lyric" class="control-label"></label>
                 <textarea asp-for="Lyric" class="form-control"></textarea>
                 <span asp-validation-for="Lyric" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="input-group">
                 <label asp-for="TimeLimitSec" class="control-label"></label>
                 <input asp-for="TimeLimitSec" class="form-control" />
                 <span asp-validation-for="TimeLimitSec" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="submit-group">
+                <button>Save</button>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 

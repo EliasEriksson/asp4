@@ -1,39 +1,56 @@
+@using System.Security.Claims
 @model Quiz
 
 @{
-    ViewData["Title"] = "Details";
-    ViewData["javascript"] = new List<string>()
+    ViewData["Title"] = Model.Name;
+    ViewData["javascript"] = new List<string>
     {
         "js/quiz.js"
     };
 }
 
-<h1>@Model.Name</h1>
-<div>
-    <div>
-        <button id="startQuiz">Start Quiz</button>
-        <time id="quizTimer">@(Model.TimeLimitSec / 60):@(Model.TimeLimitSec % 60)</time>
-    </div>
-
-    <form id="inputForm">
-        <div class="form-group">
-            <label></label>
-            <input disabled="disabled" id="wordInput" class="form-control"/>
-        </div>
-        <input id="inputFormSubmitButton" disabled="disabled" type="submit">
-    </form>
-    <p id="found-words" class="found-words"></p>
+<div class="content-heading">
+    <h1>@Model.Name</h1>
+    <nav class="quiz-nav">
+        <ul>
+            @if (User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.UserId)
+            {
+                <li>
+                    <a asp-action="Edit" asp-route-id="@(Model.Id)">Edit</a>
+                </li>
+                <li>
+                    <a asp-action="Delete" asp-route-id="@(Model.Id)">Delete</a>
+                </li>
+            }
+            <li>
+                <a asp-action="Index">Quiz list</a>
+            </li>
+        </ul>
+    </nav>
 </div>
-<div>
-    <ul>
-        <li>
-            <a asp-action="Edit" asp-route-id="@(Model.Id)">Edit</a>
-        </li>
-        <li>
-            <a asp-action="Delete" asp-route-id="@(Model.Id)">Delete</a>
-        </li>
-        <li>
-            <a asp-action="Index">Back to List</a>
-        </li>
-    </ul>
+<hr/>
+
+<form id="inputForm">
+    <div class="input-group">
+        <label>Words in the lyrics</label>
+        <input autocomplete="off" id="wordInput" class="form-control"/>
+    </div>
+    <div class="submit-group">
+        <button id="inputFormSubmitButton">Guess</button>
+        <button id="stopQuiz" disabled>Submit Quiz</button>
+    </div>
+</form>
+
+<div class="quiz-lyrics">
+    <div class="quiz-lyrics-heading">
+        <h2>Lyrics</h2>
+        <div class="quiz-lyrics-heading-info">
+            <p>Remaining: <span id="remainingWords"></span> / <span id="totalWords"></span></p>
+            <p>Time <time id="quizTimer">@($"{Model.TimeLimitSec / 60}:{(Model.TimeLimitSec % 60):00}")</time></p>
+        </div>
+    </div>
+    <div class="p-width lyrics">
+        <hr class="p-width"/>
+        <p id="found-words" class="found-words"></p>
+    </div>
 </div>

@@ -1,12 +1,12 @@
 # run in dev
 1. Install dependencies
-   * Microsoft.EntityFrameworkCore.Design
-   * Microsoft.VisualStudio.Web.CodeGeneration.Design
-   * Npgsql.EntityFrameworkCore.PostgreSQL
-   * Newtonsoft.Json
-   * Microsoft.EntityFrameworkCore.SqlServer
-   * Microsoft.VisualStudio.Web.CodeGeneration.Design
-   * Microsoft.AspNetCore.Mvc.NewtonsoftJson
+    * Microsoft.EntityFrameworkCore.Design
+    * Microsoft.VisualStudio.Web.CodeGeneration.Design
+    * Npgsql.EntityFrameworkCore.PostgreSQL
+    * Newtonsoft.Json
+    * Microsoft.EntityFrameworkCore.SqlServer
+    * Microsoft.VisualStudio.Web.CodeGeneration.Design
+    * Microsoft.AspNetCore.Mvc.NewtonsoftJson
 2. Add `.credentials.json` in project root (`asp4/Quiz/`)
    ```json
    {

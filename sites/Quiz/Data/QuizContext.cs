@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -10,11 +9,17 @@ namespace Quiz.Data
         public QuizContext(DbContextOptions<QuizContext> options) : base(options)
         {
         }
-
+        
+        /**
+         * exception to throw if the .credentials.json is missing
+         */
         public class MissingCredentials : Exception
         {
         }
 
+        /**
+         * class representing contents of .credentials.json
+         */
         private class DbCredentials
         {
             public string? Role { get; init; }
@@ -27,6 +32,9 @@ namespace Quiz.Data
             Environment.CurrentDirectory, ".credentials.json"
         );
 
+        /**
+         * loads the .credentials.json file into an object
+         */
         private static DbCredentials Load()
         {
             var credentials = JsonConvert.DeserializeObject<DbCredentials>(System.IO.File.ReadAllText(CredentialsFile));
@@ -37,7 +45,13 @@ namespace Quiz.Data
 
             return credentials;
         }
-
+        
+        /**
+         * configure context to use postgres
+         *
+         * logs into the postgres server using the credentials in
+         * .credentials.json
+         */
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var credentials = Load();
@@ -49,8 +63,10 @@ namespace Quiz.Data
             );
         }
         
-        // public DbSet<Models.ApplicationUser> Users { get; set; }
+        public DbSet<Models.ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Models.Quiz> Quizzes { get; set; }
         public DbSet<Models.QuizResult> QuizResults { get; set; }
+        
+        public DbSet<Models.MissingWord> MissingWords { get; set; }
     }
 }

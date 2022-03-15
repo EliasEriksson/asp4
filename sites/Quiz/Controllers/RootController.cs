@@ -1,22 +1,37 @@
-using System.Security.Claims;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Quiz.Data;
+using Quiz.Models;
 
-namespace Quiz.Controllers
+namespace Quiz.Controllers;
+
+public class RootController : Controller
 {
-    public class RootController : Controller
+    private readonly ILogger<RootController> _logger;
+
+    public RootController(ILogger<RootController> logger)
     {
-        private readonly QuizContext _context;
+        _logger = logger;
+    }
 
-        public RootController(QuizContext context)
-        {
-            _context = context;
-        }
+    /**
+     * serves the home page
+     */
+    public IActionResult Index()
+    {
+        return View();
+    }
 
-        public IActionResult Index()
-        {
-            Console.WriteLine($"user: {User.FindFirstValue(ClaimTypes.NameIdentifier)}");
-            return this.View();
-        }
+    /**
+     * serves the how to play page
+     */
+    public IActionResult Instructions()
+    {
+        return View();
+    }
+
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error()
+    {
+        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
     }
 }
