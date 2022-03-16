@@ -35,7 +35,7 @@ namespace Quiz.Controllers
          */
         private static string LyricFormatter(string lyric)
         {
-            lyric = Regex.Replace(lyric!, @"(?:\([^)]+\))|\.|!|\?|,|-|;|(?:\[[^)]+\])|", "");
+            lyric = Regex.Replace(lyric!, @"(?:\([^)]+\))|\.|!|\?|,|-|;|(?:\[[^)]+\])|""", "");
             lyric = Regex.Replace(lyric!, @"[\s\n]+", " ");
             return lyric;
         }
@@ -78,6 +78,7 @@ namespace Quiz.Controllers
                 query = _context.Quizzes;
                 ViewBag.Search = false;
             }
+
             // apply remaining part of query
             // join the intermediate query with the quiz table
             var completedQuizzes = query.Join(
@@ -88,7 +89,7 @@ namespace Quiz.Controllers
                     quiz.Id, quiz.Name, quiz.Lyric, quiz.TimeLimitSec, intermediate.AvgPercentCompleted
                 )
             );
-            
+
             // query the quiz result table for all rows that does not relate to anything in the intermediate query
             // this will be all quizzes that are not completed yet.
             // have to do it this way to avoid divide by 0 and who knows how to do a left join in this rando query language?
@@ -166,11 +167,11 @@ namespace Quiz.Controllers
         {
             this.ModelState.Clear();
             quiz.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
+            quiz.Lyric = quiz.Lyric == null ? "" : LyricFormatter(quiz.Lyric);
+            
             if (this.TryValidateModel(quiz))
             {
                 quiz.Id = Guid.NewGuid();
-                quiz.Lyric = LyricFormatter(quiz.Lyric);
                 _context.Add(quiz);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Details", "Quiz", new {id = quiz.Id});
@@ -214,10 +215,10 @@ namespace Quiz.Controllers
 
             ModelState.Clear();
             quiz.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            quiz.Lyric = quiz.Lyric == null ? "" : LyricFormatter(quiz.Lyric);
 
             if (this.TryValidateModel(quiz))
             {
-                quiz.Lyric = LyricFormatter(quiz.Lyric);
                 try
                 {
                     _context.Update(quiz);
